@@ -174,6 +174,34 @@ public:
         }
         return true;
     }
+    // overloaded inequality operator
+    friend bool operator!=(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY){
+            return true;
+        }
+        for(int i = 0; i < pic1.maxX; i++){
+            for(int j = 0; j < pic1.maxY; j++){
+                if(pic1.matrix[i][j] != pic2.matrix[i][j]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    // overloaded less than operator
+    friend bool operator<(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX < pic2.maxX || pic1.maxY < pic2.maxY){
+            return true;
+        }
+        return false;
+    }
+    // overloaded greater than operator
+    friend bool operator>(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX > pic2.maxX || pic1.maxY > pic2.maxY){
+            return true;
+        }
+        return false;
+    }
 };
 
 int main() {
