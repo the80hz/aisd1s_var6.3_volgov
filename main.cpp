@@ -389,15 +389,29 @@ public:
         }
         return false;
     }
+    // draw circle function
+    static void draw_circle(bin_pic &pic, int x, int y, int radius){
+        try{
+            if(x < 0 || y < 0 || radius < 0 || x > pic.maxX || y > pic.maxY || radius*2 > pic.maxX || radius*2 > pic.maxY){
+                throw MyException("Invalid input");
+            }
+            for(int i = 0; i < pic.maxX; i++){
+                for(int j = 0; j < pic.maxY; j++){
+                    if((i - x) * (i - x) + (j - y) * (j - y) <= radius * radius){
+                        pic.matrix[i][j] = true;
+                    }
+                }
+            }
+        }
+        catch(MyException &e){
+            std::cout << e.what() << std::endl;
+        }
+    }
 };
 
 int main() {
-    bin_pic pic(5, 5);
-    pic.set(9, 9, true);
-    pic.set(1, 1, true);
-    pic.set(2, 2, true);
-    pic.set(3, 3, true);
-    pic.set(4, 4, true);
-    std::cout << pic;
+    bin_pic pic1(5, 5);
+    bin_pic::draw_circle(pic1, 3, 3, 2);
+    std::cout << pic1 << std::endl;
     return 0;
 }
