@@ -6,6 +6,7 @@ private:
     int maxX, maxY;
 
 public:
+    // constructor
     bin_pic(int x, int y){
         matrix = new bool*[x];
         for(int i = 0; i < x; i++){
@@ -14,6 +15,7 @@ public:
         maxX = x;
         maxY = y;
     }
+    // copy constructor
     bin_pic(const bin_pic &pic){
         matrix = new bool*[pic.maxX];
         for(int i = 0; i < pic.maxX; i++){
@@ -22,18 +24,22 @@ public:
         maxX = pic.maxX;
         maxY = pic.maxY;
     }
+    // destructor
     ~bin_pic(){
         for(int i = 0; i < maxX; i++){
             delete[] matrix[i];
         }
         delete[] matrix;
     }
+    // set the value of a pixel
     void set(int x, int y, bool value){
         matrix[x][y] = value;
     }
+    // get the value of a pixel
     bool get(int x, int y){
         return matrix[x][y];
     }
+    // output the picture
     void print(){
         for(int i = 0; i < maxX; i++){
             for(int j = 0; j < maxY; j++){
@@ -52,6 +58,58 @@ public:
         }
         return pic;
     }
+    // add two pictures
+    bin_pic operator+(const bin_pic &pic){
+        bin_pic new_pic(maxX, maxY);
+        for(int i = 0; i < maxX; i++){
+            for(int j = 0; j < maxY; j++){
+                new_pic.set(i, j, matrix[i][j] || pic.matrix[i][j]);
+            }
+        }
+        return new_pic;
+    }
+    // multiply two pictures
+    bin_pic operator*(const bin_pic &pic){
+        bin_pic new_pic(maxX, maxY);
+        for(int i = 0; i < maxX; i++){
+            for(int j = 0; j < maxY; j++){
+                new_pic.set(i, j, matrix[i][j] && pic.matrix[i][j]);
+            }
+        }
+        return new_pic;
+    }
+    // commutativity of addition
+    friend bin_pic operator+(const bin_pic &pic1, const bin_pic &pic2){
+        bin_pic new_pic(pic1.maxX, pic1.maxY);
+        for(int i = 0; i < pic1.maxX; i++){
+            for(int j = 0; j < pic1.maxY; j++){
+                new_pic.set(i, j, pic1.matrix[i][j] || pic2.matrix[i][j]);
+            }
+        }
+        return new_pic;
+    }
+    // commutativity of multiplication
+    friend bin_pic operator*(const bin_pic &pic1, const bin_pic &pic2){
+        bin_pic new_pic(pic1.maxX, pic1.maxY);
+        for(int i = 0; i < pic1.maxX; i++){
+            for(int j = 0; j < pic1.maxY; j++){
+                new_pic.set(i, j, pic1.matrix[i][j] && pic2.matrix[i][j]);
+            }
+        }
+        return new_pic;
+    }
+    // fill ratio
+    double fill_ratio(){
+        int count = 0;
+        for(int i = 0; i < maxX; i++){
+            for(int j = 0; j < maxY; j++){
+                if(matrix[i][j]){
+                    count++;
+                }
+            }
+        }
+        return (double)count / (maxX * maxY);
+    }
 };
 
 int main() {
@@ -61,6 +119,6 @@ int main() {
     pic.set(2, 2, true);
     pic.set(3, 3, true);
     pic.set(4, 4, true);
-    pic.print();
+    std::cout << pic.fill_ratio();
     return 0;
 }
