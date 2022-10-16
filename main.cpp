@@ -202,6 +202,21 @@ public:
         }
         return false;
     }
+    // overloaded less than or equal to operator
+    friend bool operator<=(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX <= pic2.maxX || pic1.maxY <= pic2.maxY){
+            return true;
+        }
+        return false;
+    }
+    // overloaded greater than or equal to operator
+    friend bool operator>=(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX >= pic2.maxX || pic1.maxY >= pic2.maxY){
+            return true;
+        }
+        return false;
+    }
+
 };
 
 int main() {
