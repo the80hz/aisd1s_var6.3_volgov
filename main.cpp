@@ -78,6 +78,37 @@ public:
         }
         return new_pic;
     }
+    // subtract two pictures
+    bin_pic operator-(const bin_pic &pic){
+        bin_pic new_pic(maxX, maxY);
+        for(int i = 0; i < maxX; i++){
+            for(int j = 0; j < maxY; j++){
+                new_pic.set(i, j, matrix[i][j] && !pic.matrix[i][j]);
+            }
+        }
+        return new_pic;
+    }
+    // copy assignment
+    bin_pic& operator=(const bin_pic &pic){
+        if(this != &pic){
+            for(int i = 0; i < maxX; i++){
+                delete[] matrix[i];
+            }
+            delete[] matrix;
+            matrix = new bool*[pic.maxX];
+            for(int i = 0; i < pic.maxX; i++){
+                matrix[i] = new bool[pic.maxY];
+            }
+            maxX = pic.maxX;
+            maxY = pic.maxY;
+            for(int i = 0; i < maxX; i++){
+                for(int j = 0; j < maxY; j++){
+                    matrix[i][j] = pic.matrix[i][j];
+                }
+            }
+        }
+        return *this;
+    }
     // commutativity of addition
     friend bin_pic operator+(const bin_pic &pic1, const bin_pic &pic2){
         bin_pic new_pic(pic1.maxX, pic1.maxY);
@@ -128,6 +159,20 @@ public:
             }
         }
         return in;
+    }
+    // overloaded equality operator
+    friend bool operator==(const bin_pic &pic1, const bin_pic &pic2){
+        if(pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY){
+            return false;
+        }
+        for(int i = 0; i < pic1.maxX; i++){
+            for(int j = 0; j < pic1.maxY; j++){
+                if(pic1.matrix[i][j] != pic2.matrix[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 };
 
