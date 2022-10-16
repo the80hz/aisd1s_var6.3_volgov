@@ -110,6 +110,25 @@ public:
         }
         return (double)count / (maxX * maxY);
     }
+    // overloaded output operator
+    friend std::ostream& operator<<(std::ostream &out, const bin_pic &pic){
+        for(int i = 0; i < pic.maxX; i++){
+            for(int j = 0; j < pic.maxY; j++){
+                out << pic.matrix[i][j];
+            }
+            out << std::endl;
+        }
+        return out;
+    }
+    // overloaded input operator
+    friend std::istream& operator>>(std::istream &in, bin_pic &pic){
+        for(int i = 0; i < pic.maxX; i++){
+            for(int j = 0; j < pic.maxY; j++){
+                in >> pic.matrix[i][j];
+            }
+        }
+        return in;
+    }
 };
 
 int main() {
@@ -119,6 +138,6 @@ int main() {
     pic.set(2, 2, true);
     pic.set(3, 3, true);
     pic.set(4, 4, true);
-    std::cout << pic.fill_ratio();
+    std::cout << pic;
     return 0;
 }
