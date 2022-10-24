@@ -27,7 +27,7 @@ public:
     // output the picture
     void print();
     // invert the picture
-    bin_pic operator!();
+    bin_pic invert();
     // add two pictures
     bin_pic operator+(const bin_pic &pic);
     // multiply two pictures
@@ -50,14 +50,6 @@ public:
     friend bool operator==(const bin_pic &pic1, const bin_pic &pic2);
     // overloaded inequality operator
     friend bool operator!=(const bin_pic &pic1, const bin_pic &pic2);
-    // overloaded less than operator
-    friend bool operator<(const bin_pic &pic1, const bin_pic &pic2);
-    // overloaded greater than operator
-    friend bool operator>(const bin_pic &pic1, const bin_pic &pic2);
-    // overloaded less than or equal to operator
-    friend bool operator<=(const bin_pic &pic1, const bin_pic &pic2);
-    // overloaded greater than or equal to operator
-    friend bool operator>=(const bin_pic &pic1, const bin_pic &pic2);
     // draw circle function
     static void draw_circle(bin_pic &pic, int x, int y, int radius);
 };
