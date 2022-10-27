@@ -81,6 +81,7 @@ void select_pic(int i) {
         std::cout << "Select picture" << std::endl;
         std::cout << "1. First picture" << std::endl;
         std::cout << "2. Second picture" << std::endl;
+        std::cout << "3. Exit" << std::endl;
         std::cin >> num;
         switch (num) {
             case 1:
@@ -89,6 +90,9 @@ void select_pic(int i) {
             case 2:
                 menu(i, pic2, pic1);
                 break;
+            case 3:
+                return;
+
             default:
                 std::cout << "Wrong number" << std::endl;
                 break;
