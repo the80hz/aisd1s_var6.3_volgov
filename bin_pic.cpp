@@ -11,40 +11,42 @@ bin_pic::bin_pic(int x, int y){
     for(int i = 0; i < x; i++)
         matrix[i] = new bool[y];
 
-    maxX = x;
-    maxY = y;
+    _maxX = x;
+    _maxY = y;
 }
 // copy constructor
-bin_pic::bin_pic(const bin_pic &pic) : bin_pic(pic.maxX, pic.maxY){
-    for(int i = 0; i < maxX; i++)
-        for(int j = 0; j < maxY; j++)
+bin_pic::bin_pic(const bin_pic &pic) : bin_pic(pic._maxX, pic._maxY){
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
             matrix[i][j] = pic.matrix[i][j];
 }
 // destructor
 bin_pic::~bin_pic(){
-    for(int i = 0; i < maxX; i++)
+    for(int i = 0; i < _maxX; i++)
         delete[] matrix[i];
 
     delete[] matrix;
 }
+
 // set the value of a pixel and exception
 void bin_pic::set(int x, int y, bool value){
-    if(x < 0 || x >= maxX || y < 0 || y >= maxY)
+    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw MyException("Index out of range");
 
     matrix[x][y] = value;
 }
 // get the value of a pixel
 bool bin_pic::get(int x, int y){
-    if(x >= maxX || y >= maxY)
+    if(x >= _maxX || y >= _maxY)
         throw MyException("Index out of bounds");
 
     return matrix[x][y];
 }
+
 // output the picture
 void bin_pic::print(){
-     for(int i = 0; i < maxX; i++){
-         for(int j = 0; j < maxY; j++){
+     for(int i = 0; i < _maxX; i++){
+         for(int j = 0; j < _maxY; j++){
              if(matrix[i][j])
                  std::cout << "■  ";
 
@@ -55,163 +57,134 @@ void bin_pic::print(){
          std::cout << std::endl;
      }
 }
-// invert the picture
-bin_pic bin_pic::invert(){
-    bin_pic pic(maxX, maxY);
-    for (int i = 0; i < maxX; i++)
-        for (int j = 0; j < maxY; j++)
-            pic.set(i, j, !matrix[i][j]);
 
-    return pic;
+// operator +
+bin_pic bin_pic::operator+(bin_pic &pic){
+    if(_maxX != pic._maxX || _maxY != pic._maxY)
+        throw MyException("Different sizes");
+
+    bin_pic result(_maxX, _maxY);
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = matrix[i][j] || pic.matrix[i][j];
+
+    return result;
 }
-// add two pictures
-bin_pic bin_pic::operator+(const bin_pic &pic){
-    if(pic.maxX != maxX || pic.maxY != maxY)
-        throw MyException("Dimensions do not match");
+// operator *
+bin_pic bin_pic::operator*(bin_pic &pic){
+    if(_maxX != pic._maxX || _maxY != pic._maxY)
+        throw MyException("Different sizes");
 
-    bin_pic newPic(maxX, maxY);
-    for(int i = 0; i < maxX; i++)
-        for(int j = 0; j < maxY; j++)
-            newPic.set(i, j, matrix[i][j] || pic.matrix[i][j]);
+    bin_pic result(_maxX, _maxY);
 
-    return newPic;
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = matrix[i][j] && pic.matrix[i][j];
+
+    return result;
 }
-// multiply two pictures
-bin_pic bin_pic::operator*(const bin_pic &pic){
-    if(pic.maxX != maxX || pic.maxY != maxY)
-        throw MyException("Dimensions do not match");
+// operator !
+bin_pic bin_pic::operator!(){
+    bin_pic result(_maxX, _maxY);
 
-    bin_pic newPic(maxX, maxY);
-    for(int i = 0; i < maxX; i++)
-        for(int j = 0; j < maxY; j++)
-            newPic.set(i, j, matrix[i][j] && pic.matrix[i][j]);
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = !matrix[i][j];
 
-    return newPic;
+    return result;
 }
-// subtract two pictures
-bin_pic bin_pic::operator-(const bin_pic &pic){
-    if(pic.maxX != maxX || pic.maxY != maxY)
-        throw MyException("Dimensions do not match");
-
-    bin_pic newPic(maxX, maxY);
-    for(int i = 0; i < maxX; i++)
-        for(int j = 0; j < maxY; j++)
-            newPic.set(i, j, matrix[i][j] && !pic.matrix[i][j]);
-
-    return newPic;
-}
-// copy assignment
+// operator =
 bin_pic& bin_pic::operator=(const bin_pic &pic){
-    if(this != &pic){
-        for(int i = 0; i < maxX; i++)
-            delete[] matrix[i];
+    if(this == &pic)
+        return *this;
 
-        delete[] matrix;
-        matrix = new bool*[pic.maxX];
-        for(int i = 0; i < pic.maxX; i++)
-            matrix[i] = new bool[pic.maxY];
-        
+    for(int i = 0; i < _maxX; i++)
+        delete[] matrix[i];
 
+    delete[] matrix;
 
-        maxX = pic.maxX;
-        maxY = pic.maxY;
-    }
+    _maxX = pic._maxX;
+    _maxY = pic._maxY;
+
+    matrix = new bool*[_maxX];
+    for(int i = 0; i < _maxX; i++)
+        matrix[i] = new bool[_maxY];
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            matrix[i][j] = pic.matrix[i][j];
+
     return *this;
 }
-// commutativity of addition
- bin_pic operator+(const bin_pic &pic1, const bin_pic &pic2){
-    if(pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY)
-        throw MyException("Dimensions do not match");
 
-    bin_pic newPic(pic1.maxX, pic1.maxY);
-    for(int i = 0; i < pic1.maxX; i++)
-        for(int j = 0; j < pic1.maxY; j++)
-            newPic.set(i, j, pic1.matrix[i][j] || pic2.matrix[i][j]);
+// operator + but binary
+bin_pic bin_pic::operator+(bool value){
+    bin_pic result(_maxX, _maxY);
 
-    return newPic;
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = value || matrix[i][j];
+
+    return result;
 }
-// commutativity of multiplication
-bin_pic operator*(const bin_pic &pic1, const bin_pic &pic2){
-    if(pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY)
-        throw MyException("Dimensions do not match");
+// operator * but binary
+bin_pic bin_pic::operator*(bool value){
+    bin_pic result(_maxX, _maxY);
 
-    bin_pic newPic(pic1.maxX, pic1.maxY);
-    for(int i = 0; i < pic1.maxX; i++)
-        for(int j = 0; j < pic1.maxY; j++)
-            newPic.set(i, j, pic1.matrix[i][j] && pic2.matrix[i][j]);
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = value && matrix[i][j];
 
-    return newPic;
+    return result;
 }
-// fill ratio
-double bin_pic::fill_ratio(){
-    if(maxX == 0 || maxY == 0)
-        throw MyException("Dimensions are 0");
 
-    int count = 0;
-    for(int i = 0; i < maxX; i++)
-        for(int j = 0; j < maxY; j++)
-            if(matrix[i][j])
-                count++;
+// operator <<
+std::ostream& operator<<(std::ostream &out, bin_pic &pic){
+    for(int i = 0; i < pic._maxX; i++){
+        for(int j = 0; j < pic._maxY; j++){
+            if(pic.matrix[i][j])
+                out << "■  ";
 
-    return (double)count / (maxX * maxY);
-}
-// overloaded output operator
-std::ostream& operator<<(std::ostream &out, const bin_pic &pic){
-    if(pic.maxX == 0 || pic.maxY == 0)
-        throw MyException("Dimensions are 0");
+            else
+                out << "□  ";
 
-    for(int i = 0; i < pic.maxX; i++){
-        for(int j = 0; j < pic.maxY; j++)
-            out << pic.matrix[i][j];
-
+        }
         out << std::endl;
     }
 
     return out;
 }
-// overloaded input operator
+// operator >>
 std::istream& operator>>(std::istream &in, bin_pic &pic){
-    if(pic.maxX == 0 || pic.maxY == 0)
-        throw MyException("Dimensions are 0");
-
-    for(int i = 0; i < pic.maxX; i++)
-        for(int j = 0; j < pic.maxY; j++)
+    for(int i = 0; i < pic._maxX; i++)
+        for(int j = 0; j < pic._maxY; j++)
             in >> pic.matrix[i][j];
 
     return in;
 }
-// overloaded equality operator
-bool operator==(const bin_pic &pic1, const bin_pic &pic2){
-    if(pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY)
-        throw MyException("Dimensions do not match");
 
-    for(int i = 0; i < pic1.maxX; i++)
-        for(int j = 0; j < pic1.maxY; j++)
-            if(pic1.matrix[i][j] != pic2.matrix[i][j])
-                return false;
+// fill ratio
+double bin_pic::fill_ratio(){
+    if(_maxX == 0 || _maxY == 0)
+        throw MyException("Dimensions are 0");
 
-    return true;
-}
-// overloaded inequality operator
-bool operator!=(const bin_pic &pic1, const bin_pic &pic2){
-    if (pic1.maxX != pic2.maxX || pic1.maxY != pic2.maxY)
-        throw MyException("Dimensions do not match");
+    int count = 0;
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            if(matrix[i][j])
+                count++;
 
-    for (int i = 0; i < pic1.maxX; i++)
-        for (int j = 0; j < pic1.maxY; j++)
-            if (pic1.matrix[i][j] != pic2.matrix[i][j])
-                return true;
-
-    return false;
+    return (double)count / (_maxX * _maxY);
 }
 // draw a circle
 void bin_pic::draw_circle(bin_pic &pic, int x, int y, int radius){
-    if (x < 0 || y < 0 || radius < 0 || x > pic.maxX || y > pic.maxY || radius * 2 > pic.maxX ||
-    radius * 2 > pic.maxY)
+    if (x < 0 || y < 0 || radius < 0 || x > pic._maxX || y > pic._maxY || radius * 2 > pic._maxX ||
+    radius * 2 > pic._maxY)
         throw MyException("Invalid input");
 
-    for (int i = 0; i < pic.maxX; i++)
-        for (int j = 0; j < pic.maxY; j++)
+    for (int i = 0; i < pic._maxX; i++)
+        for (int j = 0; j < pic._maxY; j++)
             if ((i - x) * (i - x) + (j - y) * (j - y) <= radius * radius)
                 pic.matrix[i][j] = true;
 }

@@ -3,14 +3,14 @@
 
 void menu(int i, bin_pic &pic1, bin_pic &pic2){
     while(true){
-        bin_pic pic3(0, 0);
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
         std::cout << "4. Add two pictures" << std::endl;
-        std::cout << "5. Subtract two pictures" << std::endl;
+        std::cout << "5. Add picture with bool" << std::endl;
         std::cout << "6. Multiply two pictures" << std::endl;
-        std::cout << "7. Fill ratio" << std::endl;
+        std::cout << "7. Multiply picture with bool" << std::endl;
+        std::cout << "8. Fill ratio" << std::endl;
         std::cout << "9. Exit" << std::endl;
         std::cin >> i;
         switch(i){
@@ -22,27 +22,41 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 break;
             }
             case 2:{
-                pic1.print();
+                std::cout << pic1;
                 break;
             }
             case 3:{
-                // ! function
-                pic1 = pic1.invert();
+                // operator !
+                pic1 = !pic1;
                 break;
             }
             case 4:{
+                // operator +
                 pic1 = pic1 + pic2;
                 break;
             }
             case 5:{
-                pic3 = pic1 - pic2;
+                // operator + bool
+                bool value;
+                std::cout << "Enter a bool" << std::endl;
+                std::cin >> value;
+                pic1 = pic1 + value;
                 break;
             }
             case 6:{
-                pic3 = pic1 * pic2;
+                // operator *
+                pic1 = pic1 * pic2;
                 break;
             }
             case 7:{
+                // operator * bool
+                bool value;
+                std::cout << "Enter a bool" << std::endl;
+                std::cin >> value;
+                pic1 = pic1 * value;
+                break;
+            }
+            case 8:{
                 std::cout << pic1.fill_ratio() << std::endl;
                 break;
             }

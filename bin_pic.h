@@ -11,7 +11,7 @@
 class bin_pic{
 private:
     bool **matrix;
-    int maxX, maxY;
+    int _maxX, _maxY;
 
 public:
     // constructor
@@ -20,37 +20,37 @@ public:
     bin_pic(const bin_pic &pic);
     // destructor
     ~bin_pic();
+
     // set the value of a pixel
     void set(int x, int y, bool value);
     // get the value of a pixel
     bool get(int x, int y);
+
     // output the picture
     void print();
-    // invert the picture
-    bin_pic invert();
-    // add two pictures
-    bin_pic operator+(const bin_pic &pic);
-    // multiply two pictures
-    bin_pic operator*(const bin_pic &pic);
-    // subtract two pictures
-    bin_pic operator-(const bin_pic &pic);
-    // copy assignment
+
+    // operator +
+    bin_pic operator+(bin_pic &pic);
+    // operator *
+    bin_pic operator*(bin_pic &pic);
+    // operator !
+    bin_pic operator!();
+    // operator =
     bin_pic& operator=(const bin_pic &pic);
-    // commutativity of addition
-    friend bin_pic operator+(const bin_pic &pic1, const bin_pic &pic2);
-    // commutativity of multiplication
-    friend bin_pic operator*(const bin_pic &pic1, const bin_pic &pic2);
+
+    // operator + but binary
+    bin_pic operator+(bool value);
+    // operator * but binary
+    bin_pic operator*(bool value);
+
+    // operator <<
+    friend std::ostream& operator<<(std::ostream &out, bin_pic &pic);
+    // operator >>
+    friend std::istream& operator>>(std::istream &in, bin_pic &pic);
+
     // fill ratio
     double fill_ratio();
-    // overloaded output operator
-    friend std::ostream& operator<<(std::ostream &out, const bin_pic &pic);
-    // overloaded input operator
-    friend std::istream& operator>>(std::istream &in, bin_pic &pic);
-    // overloaded equality operator
-    friend bool operator==(const bin_pic &pic1, const bin_pic &pic2);
-    // overloaded inequality operator
-    friend bool operator!=(const bin_pic &pic1, const bin_pic &pic2);
-    // draw circle function
+    // draw a circle
     static void draw_circle(bin_pic &pic, int x, int y, int radius);
 };
 
