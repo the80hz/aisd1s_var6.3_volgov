@@ -1,12 +1,8 @@
-//
-// Created by Даниил Вольгов on 16.10.2022.
-//
-
 #ifndef LAB1_BIN_PIC_H
 #define LAB1_BIN_PIC_H
 
 #include <iostream>
-#include "MyException.h"
+
 
 class bin_pic{
 private:
@@ -52,6 +48,12 @@ public:
     double fill_ratio();
     // draw a circle
     static void draw_circle(bin_pic &pic, int x, int y, int radius);
+
+    // const call operator
+    bool operator()(int x, int y) const;
+
+    // call operator
+    bool& operator()(int x, int y);
 };
 
 

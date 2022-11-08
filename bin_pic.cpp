@@ -1,7 +1,3 @@
-//
-// Created by Даниил Вольгов on 16.10.2022.
-//
-
 #include "bin_pic.h"
 
 
@@ -31,14 +27,14 @@ bin_pic::~bin_pic(){
 // set the value of a pixel and exception
 void bin_pic::set(int x, int y, bool value){
     if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
-        throw MyException("Index out of range");
+        throw std::out_of_range("Out of range");
 
     matrix[x][y] = value;
 }
 // get the value of a pixel
 bool bin_pic::get(int x, int y){
     if(x >= _maxX || y >= _maxY)
-        throw MyException("Index out of bounds");
+        throw std::out_of_range("Out of range");
 
     return matrix[x][y];
 }
@@ -49,10 +45,8 @@ void bin_pic::print(){
          for(int j = 0; j < _maxY; j++){
              if(matrix[i][j])
                  std::cout << "■  ";
-
              else
                  std::cout << "□  ";
-
          }
          std::cout << std::endl;
      }
@@ -61,7 +55,7 @@ void bin_pic::print(){
 // operator +
 bin_pic bin_pic::operator+(bin_pic &pic){
     if(_maxX != pic._maxX || _maxY != pic._maxY)
-        throw MyException("Different sizes");
+        throw std::invalid_argument("Different sizes");
 
     bin_pic result(_maxX, _maxY);
 
@@ -74,7 +68,7 @@ bin_pic bin_pic::operator+(bin_pic &pic){
 // operator *
 bin_pic bin_pic::operator*(bin_pic &pic){
     if(_maxX != pic._maxX || _maxY != pic._maxY)
-        throw MyException("Different sizes");
+        throw std::invalid_argument("Invalid argument");
 
     bin_pic result(_maxX, _maxY);
 
@@ -148,7 +142,6 @@ std::ostream& operator<<(std::ostream &out, bin_pic &pic){
 
             else
                 out << "□  ";
-
         }
         out << std::endl;
     }
@@ -167,7 +160,7 @@ std::istream& operator>>(std::istream &in, bin_pic &pic){
 // fill ratio
 double bin_pic::fill_ratio(){
     if(_maxX == 0 || _maxY == 0)
-        throw MyException("Dimensions are 0");
+        return 0;
 
     int count = 0;
     for(int i = 0; i < _maxX; i++)
@@ -181,10 +174,26 @@ double bin_pic::fill_ratio(){
 void bin_pic::draw_circle(bin_pic &pic, int x, int y, int radius){
     if (x < 0 || y < 0 || radius < 0 || x > pic._maxX || y > pic._maxY || radius * 2 > pic._maxX ||
     radius * 2 > pic._maxY)
-        throw MyException("Invalid input");
+        throw std::invalid_argument("Invalid argument");
 
     for (int i = 0; i < pic._maxX; i++)
         for (int j = 0; j < pic._maxY; j++)
             if ((i - x) * (i - x) + (j - y) * (j - y) <= radius * radius)
                 pic.matrix[i][j] = true;
+}
+
+// const call operator
+bool bin_pic::operator()(int x, int y) const{
+    if(x >= _maxX || y >= _maxY)
+        throw std::out_of_range("Out of range");
+
+    return matrix[x][y];
+}
+
+// call operator
+bool &bin_pic::operator()(int x, int y) {
+    if(x >= _maxX || y >= _maxY)
+        throw std::out_of_range("Out of range");
+
+    return matrix[x][y];
 }

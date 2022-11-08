@@ -1,5 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
 #include "bin_pic.h"
+
 
 void menu(int i, bin_pic &pic1, bin_pic &pic2){
     while(true){
@@ -13,8 +14,10 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
         std::cout << "8. Fill ratio" << std::endl;
         std::cout << "9. Exit" << std::endl;
         std::cin >> i;
+
         switch(i){
             case 1:{
+                // creating picture
                 int x, y, radius;
                 std::cout << "Enter the coordinates of the center and the radius of the circle" << std::endl;
                 std::cin >> x >> y >> radius;
@@ -22,6 +25,7 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 break;
             }
             case 2:{
+                // printing
                 std::cout << pic1;
                 break;
             }
@@ -57,10 +61,12 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 break;
             }
             case 8:{
+                // fill ratio
                 std::cout << pic1.fill_ratio() << std::endl;
                 break;
             }
             case 9:{
+                // exit
                 return;
             }
             default:{
@@ -68,13 +74,11 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 std::cin >> i;
                 break;
             }
-
         }
     }
-
 }
 
-void select_pic(int i) {
+void select_pic(int i){
     int x, y;
 
     std::cout << "Create a first picture" << std::endl;
@@ -87,17 +91,14 @@ void select_pic(int i) {
     std::cin >> x >> y;
     bin_pic pic2(x, y);
 
-    bin_pic pic3(0, 0);
-
     int num;
-
     while(true){
         std::cout << "Select picture" << std::endl;
         std::cout << "1. First picture" << std::endl;
         std::cout << "2. Second picture" << std::endl;
         std::cout << "3. Exit" << std::endl;
         std::cin >> num;
-        switch (num) {
+        switch (num){
             case 1:
                 menu(i, pic1, pic2);
                 break;
@@ -106,18 +107,15 @@ void select_pic(int i) {
                 break;
             case 3:
                 return;
-
             default:
                 std::cout << "Wrong number" << std::endl;
                 break;
         }
-
     }
-
 }
+
 int main(){
     int i = 0;
-
     select_pic(i);
 
     return 0;
