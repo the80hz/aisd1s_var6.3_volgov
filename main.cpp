@@ -1,9 +1,10 @@
 ﻿#include <iostream>
 #include "matrix_pic.h"
 
-
-/*void menu(int i, matrix_pic &pic1, matrix_pic &pic2){
+/*
+void menu(matrix_pic<bool> &pic1, matrix_pic<bool> &pic2){
     while(true){
+        int i;
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
@@ -21,7 +22,7 @@
                 int x, y, radius;
                 std::cout << "Enter the coordinates of the center and the radius of the circle" << std::endl;
                 std::cin >> x >> y >> radius;
-                matrix_pic::draw_circle(pic1, x, y, radius);
+                matrix_pic<bool>::draw_circle(pic1, x, y, radius, true);
                 break;
             }
             case 2:{
@@ -78,18 +79,18 @@
     }
 }
 
-void select_pic(int i){
+void select_pic(){
     int x, y;
 
     std::cout << "Create a first picture" << std::endl;
     std::cout << "Enter the size of the picture" << std::endl;
     std::cin >> x >> y;
-    matrix_pic pic1(x, y);
+    matrix_pic<bool> pic1(x, y);
 
     std::cout << "Enter the second picture" << std::endl;
     std::cout << "Enter the size of the picture" << std::endl;
     std::cin >> x >> y;
-    matrix_pic pic2(x, y);
+    matrix_pic<bool> pic2(x, y);
 
     int num;
     while(true){
@@ -100,10 +101,10 @@ void select_pic(int i){
         std::cin >> num;
         switch (num){
             case 1:
-                menu(i, pic1, pic2);
+                menu(pic1, pic2);
                 break;
             case 2:
-                menu(i, pic2, pic1);
+                menu(pic2, pic1);
                 break;
             case 3:
                 return;
@@ -112,22 +113,46 @@ void select_pic(int i){
                 break;
         }
     }
-}*/
+}
+*/
 
-
+void select_type(){
+    while(true){
+        int i;
+        std::cout << "Select type" << std::endl;
+        std::cout << "1. bool" << std::endl;
+        std::cout << "2. char" << std::endl;
+        std::cout << "3. short" << std::endl;
+        std::cout << "4. float" << std::endl;
+        std::cout << "0. Exit" << std::endl;
+        std::cin >> i;
+        switch(i){
+            case 1:{
+                select_pic();
+                break;
+            }
+            case 2:{
+                select_pic();
+                break;
+            }
+            case 3:{
+                select_pic();
+                break;
+            }
+            case 0:{
+                return;
+            }
+            default:{
+                std::cout << "Wrong input" << std::endl;
+                std::cin >> i;
+                break;
+            }
+        }
+    }
+}
 
 
 int main(){
-    //int i;
-    //select_pic(i);
-
-    int x, y;
-    std::cout << "Enter the size of the picture" << std::endl;
-    std::cin >> x >> y;
-    // matrix is bool
-    matrix_pic<int> pic1(x, y);
-
-
 
     return 0;
 }

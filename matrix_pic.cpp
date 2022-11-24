@@ -8,6 +8,10 @@ matrix_pic<T>::matrix_pic(int x, int y){
     matrix = new T*[_maxX];
     for(int i = 0; i < _maxX; i++)
         matrix[i] = new T[_maxY];
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            matrix[i][j] = 0;
 }
 
 template<typename T>
@@ -156,14 +160,14 @@ double matrix_pic<T>::fill_ratio() {
 }
 
 template<typename T>
-void matrix_pic<T>::draw_circle(int x, int y, int r, T value) {
-    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY || r < 0 || r*2 > _maxX || r*2 > _maxY)
-        throw std::out_of_range("Invalid arguments");
+void matrix_pic<T>::draw_circle(matrix_pic<T> &pic, int x, int y, int r, T value){
+    if(x < 0 || x >= pic._maxX || y < 0 || y >= pic._maxY)
+        throw std::out_of_range("Out of range");
 
-    for(int i = x - r; i <= x + r; i++)
-        for(int j = y - r; j <= y + r; j++)
-            if((i - x)*(i - x) + (j - y)*(j - y) <= r*r)
-                matrix[i][j] = value;
+    for(int i = 0; i < pic._maxX; i++)
+        for(int j = 0; j < pic._maxY; j++)
+            if((i - x) * (i - x) + (j - y) * (j - y) <= r * r)
+                pic.matrix[i][j] = value;
 }
 
 template<typename T>
@@ -179,3 +183,9 @@ T &matrix_pic<T>::operator()(int x, int y) {
         throw std::out_of_range("Out of range");
     return matrix[x][y];
 }
+
+
+template class matrix_pic<float>;
+template class matrix_pic<short>;
+template class matrix_pic<char>;
+template class matrix_pic<bool>;

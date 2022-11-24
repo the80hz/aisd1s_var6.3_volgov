@@ -64,7 +64,7 @@ public:
     // fill ratio
     double fill_ratio();
     // draw a circle
-    void draw_circle(int x, int y, int r, T value);
+    static void draw_circle(matrix_pic<T> &pic, int x, int y, int r, T value);
 
     // const call operator
     T operator()(int x, int y) const;
