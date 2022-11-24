@@ -1,23 +1,26 @@
-#include "bin_pic.h"
+#include "matrix_pic.h"
 
 
 // constructor
-bin_pic::bin_pic(int x, int y){
-    matrix = new bool*[x];
+template <typename T>
+matrix_pic<T>::matrix_pic(int x, int y){
+    matrix = new T*[x];
     for(int i = 0; i < x; i++)
-        matrix[i] = new bool[y];
+        matrix[i] = new T[y];
 
     _maxX = x;
     _maxY = y;
 }
 // copy constructor
-bin_pic::bin_pic(const bin_pic &pic) : bin_pic(pic._maxX, pic._maxY){
+template <typename T>
+matrix_pic<T>::matrix_pic(const matrix_pic<T> &pic) : matrix_pic(pic._maxX, pic._maxY){
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
             matrix[i][j] = pic.matrix[i][j];
 }
 // destructor
-bin_pic::~bin_pic(){
+template <typename T>
+matrix_pic<T>::~matrix_pic(){
     for(int i = 0; i < _maxX; i++)
         delete[] matrix[i];
 
@@ -25,14 +28,16 @@ bin_pic::~bin_pic(){
 }
 
 // set the value of a pixel and exception
-void bin_pic::set(int x, int y, bool value){
+template <typename T>
+void matrix_pic<T>::set(int x, int y, T value){
     if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw std::out_of_range("Out of range");
 
     matrix[x][y] = value;
 }
 // get the value of a pixel
-bool bin_pic::get(int x, int y){
+template <typename T>
+T matrix_pic<T>::get(int x, int y){
     if(x >= _maxX || y >= _maxY)
         throw std::out_of_range("Out of range");
 
@@ -40,7 +45,8 @@ bool bin_pic::get(int x, int y){
 }
 
 // output the picture
-void bin_pic::print(){
+template <typename T>
+void matrix_pic<T>::print(){
      for(int i = 0; i < _maxX; i++){
          for(int j = 0; j < _maxY; j++){
              if(matrix[i][j])
@@ -53,11 +59,12 @@ void bin_pic::print(){
 }
 
 // operator +
-bin_pic bin_pic::operator+(bin_pic &pic){
+template <typename T>
+matrix_pic<T> matrix_pic<T>::operator+(matrix_pic<T> &pic){
     if(_maxX != pic._maxX || _maxY != pic._maxY)
         throw std::invalid_argument("Different sizes");
 
-    bin_pic result(_maxX, _maxY);
+    matrix_pic result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -66,11 +73,12 @@ bin_pic bin_pic::operator+(bin_pic &pic){
     return result;
 }
 // operator *
-bin_pic bin_pic::operator*(bin_pic &pic){
+template <typename T>
+matrix_pic<T> matrix_pic<T>::operator*(matrix_pic<T> &pic){
     if(_maxX != pic._maxX || _maxY != pic._maxY)
         throw std::invalid_argument("Invalid argument");
 
-    bin_pic result(_maxX, _maxY);
+    matrix_pic result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -79,8 +87,9 @@ bin_pic bin_pic::operator*(bin_pic &pic){
     return result;
 }
 // operator !
-bin_pic bin_pic::operator!(){
-    bin_pic result(_maxX, _maxY);
+template <typename T>
+matrix_pic<T> matrix_pic<T>::operator!(){
+    matrix_pic result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -89,7 +98,8 @@ bin_pic bin_pic::operator!(){
     return result;
 }
 // operator =
-bin_pic& bin_pic::operator=(const bin_pic &pic){
+template <typename T>
+matrix_pic<T>& matrix_pic<T>::operator=(const matrix_pic<T> &pic){
     if(this == &pic)
         return *this;
 
@@ -101,9 +111,9 @@ bin_pic& bin_pic::operator=(const bin_pic &pic){
     _maxX = pic._maxX;
     _maxY = pic._maxY;
 
-    matrix = new bool*[_maxX];
+    matrix = new T*[_maxX];
     for(int i = 0; i < _maxX; i++)
-        matrix[i] = new bool[_maxY];
+        matrix[i] = new T[_maxY];
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -113,8 +123,9 @@ bin_pic& bin_pic::operator=(const bin_pic &pic){
 }
 
 // operator + but binary
-bin_pic bin_pic::operator+(bool value){
-    bin_pic result(_maxX, _maxY);
+template <typename T>
+matrix_pic<T> matrix_pic<T>::operator+(T value){
+    matrix_pic result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -123,8 +134,9 @@ bin_pic bin_pic::operator+(bool value){
     return result;
 }
 // operator * but binary
-bin_pic bin_pic::operator*(bool value){
-    bin_pic result(_maxX, _maxY);
+template <typename T>
+matrix_pic<T> matrix_pic<T>::operator*(T value){
+    matrix_pic result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -134,7 +146,8 @@ bin_pic bin_pic::operator*(bool value){
 }
 
 // operator <<
-std::ostream& operator<<(std::ostream &out, bin_pic &pic){
+template <typename T>
+std::ostream& operator<<(std::ostream &out, matrix_pic<T> &pic){
     for(int i = 0; i < pic._maxX; i++){
         for(int j = 0; j < pic._maxY; j++){
             if(pic.matrix[i][j])
@@ -149,7 +162,8 @@ std::ostream& operator<<(std::ostream &out, bin_pic &pic){
     return out;
 }
 // operator >>
-std::istream& operator>>(std::istream &in, bin_pic &pic){
+template <typename T>
+std::istream& operator>>(std::istream &in, matrix_pic<T> &pic){
     for(int i = 0; i < pic._maxX; i++)
         for(int j = 0; j < pic._maxY; j++)
             in >> pic.matrix[i][j];
@@ -158,7 +172,8 @@ std::istream& operator>>(std::istream &in, bin_pic &pic){
 }
 
 // fill ratio
-double bin_pic::fill_ratio(){
+template <typename T>
+double matrix_pic<T>::fill_ratio(){
     if(_maxX == 0 || _maxY == 0)
         return 0;
 
@@ -171,7 +186,8 @@ double bin_pic::fill_ratio(){
     return (double)count / (_maxX * _maxY);
 }
 // draw a circle
-void bin_pic::draw_circle(bin_pic &pic, int x, int y, int radius){
+template <typename T>
+void matrix_pic<T>::draw_circle(matrix_pic<T> &pic, int x, int y, int radius){
     if (x < 0 || y < 0 || radius < 0 || x > pic._maxX || y > pic._maxY || radius * 2 > pic._maxX ||
     radius * 2 > pic._maxY)
         throw std::invalid_argument("Invalid argument");
@@ -183,7 +199,8 @@ void bin_pic::draw_circle(bin_pic &pic, int x, int y, int radius){
 }
 
 // const call operator
-bool bin_pic::operator()(int x, int y) const{
+template <typename T>
+T matrix_pic<T>::operator()(int x, int y) const{
     if(x >= _maxX || y >= _maxY)
         throw std::out_of_range("Out of range");
 
@@ -191,7 +208,8 @@ bool bin_pic::operator()(int x, int y) const{
 }
 
 // call operator
-bool &bin_pic::operator()(int x, int y) {
+template <typename T>
+T &matrix_pic<T>::operator()(int x, int y) {
     if(x >= _maxX || y >= _maxY)
         throw std::out_of_range("Out of range");
 

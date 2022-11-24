@@ -1,8 +1,8 @@
 ﻿#include <iostream>
-#include "bin_pic.h"
+#include "matrix_pic.h"
 
 
-void menu(int i, bin_pic &pic1, bin_pic &pic2){
+/*void menu(int i, matrix_pic &pic1, matrix_pic &pic2){
     while(true){
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
@@ -21,7 +21,7 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 int x, y, radius;
                 std::cout << "Enter the coordinates of the center and the radius of the circle" << std::endl;
                 std::cin >> x >> y >> radius;
-                bin_pic::draw_circle(pic1, x, y, radius);
+                matrix_pic::draw_circle(pic1, x, y, radius);
                 break;
             }
             case 2:{
@@ -84,12 +84,12 @@ void select_pic(int i){
     std::cout << "Create a first picture" << std::endl;
     std::cout << "Enter the size of the picture" << std::endl;
     std::cin >> x >> y;
-    bin_pic pic1(x, y);
+    matrix_pic pic1(x, y);
 
     std::cout << "Enter the second picture" << std::endl;
     std::cout << "Enter the size of the picture" << std::endl;
     std::cin >> x >> y;
-    bin_pic pic2(x, y);
+    matrix_pic pic2(x, y);
 
     int num;
     while(true){
@@ -112,11 +112,22 @@ void select_pic(int i){
                 break;
         }
     }
-}
+}*/
+
+
+
 
 int main(){
-    int i = 0;
-    select_pic(i);
+    //int i;
+    //select_pic(i);
+
+    int x, y;
+    std::cout << "Enter the size of the picture" << std::endl;
+    std::cin >> x >> y;
+    matrix_pic<bool> pic1(x, y);
+    matrix_pic<bool> pic2(x, y);
+    std::cout << pic1;
+    std::cout << pic2;
 
     return 0;
 }
