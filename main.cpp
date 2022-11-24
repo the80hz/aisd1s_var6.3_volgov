@@ -82,21 +82,9 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
     }
 }
 
-
-void select_picture(size_t type){
-    int x, y, num;
-    std::cout << "Enter the size of the picture" << std::endl;
-    std::cin >> x >> y;
-
-    if(type == 1)
-        std::cout << "bool" << std::endl;
-    else if(type == 2)
-        std::cout << "char" << std::endl;
-    else if(type == 3)
-        std::cout << "short" << std::endl;
-    else if(type == 4)
-        std::cout << "float" << std::endl;
-
+template<typename T>
+void select_pic(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
+    int num;
     while(true){
         std::cout << "Select picture" << std::endl;
         std::cout << "1. First picture" << std::endl;
@@ -105,7 +93,7 @@ void select_picture(size_t type){
         std::cin >> num;
         switch (num){
             case 1:
-                menu<T>(pic1, pic2);
+                menu(pic1, pic2);
                 break;
             case 2:
                 menu(pic2, pic1);
@@ -116,6 +104,34 @@ void select_picture(size_t type){
                 std::cout << "Wrong number" << std::endl;
                 break;
         }
+    }
+}
+
+
+void create_by_type(size_t type){
+    int x, y, num;
+    std::cout << "Enter the size of the pictures" << std::endl;
+    std::cin >> x >> y;
+
+    if(type == 1){
+        matrix_pic<bool> pic1(x, y);
+        matrix_pic<bool> pic2(x, y);
+        select_pic<bool>(pic1, pic2);
+    }
+    else if(type == 2){
+        matrix_pic<char> pic1(x, y);
+        matrix_pic<char> pic2(x, y);
+        select_pic<char>(pic1, pic2);
+    }
+    else if(type == 3){
+        matrix_pic<short> pic1(x, y);
+        matrix_pic<short> pic2(x, y);
+        select_pic<short>(pic1, pic2);
+    }
+    else if(type == 4){
+        matrix_pic<float> pic1(x, y);
+        matrix_pic<float> pic2(x, y);
+        select_pic<float>(pic1, pic2);
     }
 }
 
@@ -131,19 +147,19 @@ void select_type(){
         std::cin >> i;
         switch(i){
             case 1:{
-                select_picture(1);
+                create_by_type(1);
                 break;
             }
             case 2:{
-                select_picture(2);
+                create_by_type(2);
                 break;
             }
             case 3:{
-                select_picture(3);
+                create_by_type(3);
                 break;
             }
             case 4:{
-                select_picture(4);
+                create_by_type(4);
                 break;
             }
             case 0:{
@@ -158,7 +174,10 @@ void select_type(){
 }
 
 int main(){
-    select_type();
+    //select_type();
 
+    char a = 'a';
+    char b = 'b';
+    std::cout << a + b << std::endl;
     return 0;
 }
