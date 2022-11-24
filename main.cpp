@@ -124,10 +124,10 @@ int main(){
     int x, y;
     std::cout << "Enter the size of the picture" << std::endl;
     std::cin >> x >> y;
-    matrix_pic<bool> pic1(x, y);
-    matrix_pic<bool> pic2(x, y);
-    std::cout << pic1;
-    std::cout << pic2;
+    // matrix is bool
+    matrix_pic<int> pic1(x, y);
+
+
 
     return 0;
 }

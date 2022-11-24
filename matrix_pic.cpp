@@ -1,25 +1,30 @@
 #include "matrix_pic.h"
 
-
-// constructor
-template <typename T>
+template<typename T>
 matrix_pic<T>::matrix_pic(int x, int y){
-    matrix = new T*[x];
-    for(int i = 0; i < x; i++)
-        matrix[i] = new T[y];
-
     _maxX = x;
     _maxY = y;
+
+    matrix = new T*[_maxX];
+    for(int i = 0; i < _maxX; i++)
+        matrix[i] = new T[_maxY];
 }
-// copy constructor
-template <typename T>
-matrix_pic<T>::matrix_pic(const matrix_pic<T> &pic) : matrix_pic(pic._maxX, pic._maxY){
+
+template<typename T>
+matrix_pic<T>::matrix_pic(const matrix_pic &pic){
+    _maxX = pic._maxX;
+    _maxY = pic._maxY;
+
+    matrix = new T*[_maxX];
+    for(int i = 0; i < _maxX; i++)
+        matrix[i] = new T[_maxY];
+
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
             matrix[i][j] = pic.matrix[i][j];
 }
-// destructor
-template <typename T>
+
+template<typename T>
 matrix_pic<T>::~matrix_pic(){
     for(int i = 0; i < _maxX; i++)
         delete[] matrix[i];
@@ -27,69 +32,63 @@ matrix_pic<T>::~matrix_pic(){
     delete[] matrix;
 }
 
-// set the value of a pixel and exception
-template <typename T>
+template<typename T>
 void matrix_pic<T>::set(int x, int y, T value){
     if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw std::out_of_range("Out of range");
-
-    matrix[x][y] = value;
+    else
+        matrix[x][y] = value;
 }
-// get the value of a pixel
-template <typename T>
-T matrix_pic<T>::get(int x, int y){
-    if(x >= _maxX || y >= _maxY)
+
+template<typename T>
+T matrix_pic<T>::get(int x, int y) {
+    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw std::out_of_range("Out of range");
-
-    return matrix[x][y];
+    else
+        return matrix[x][y];
 }
 
-// output the picture
-template <typename T>
-void matrix_pic<T>::print(){
-     for(int i = 0; i < _maxX; i++){
-         for(int j = 0; j < _maxY; j++){
-             if(matrix[i][j])
-                 std::cout << "■  ";
-             else
-                 std::cout << "□  ";
-         }
-         std::cout << std::endl;
-     }
+template<typename T>
+void matrix_pic<T>::print() {
+    for(int i = 0; i < _maxX; i++){
+        for(int j = 0; j < _maxY; j++)
+            std::cout << matrix[i][j] << " ";
+
+        std::cout << std::endl;
+    }
 }
 
-// operator +
-template <typename T>
-matrix_pic<T> matrix_pic<T>::operator+(matrix_pic<T> &pic){
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator+(const matrix_pic<T> &pic) {
     if(_maxX != pic._maxX || _maxY != pic._maxY)
         throw std::invalid_argument("Different sizes");
 
-    matrix_pic result(_maxX, _maxY);
+    matrix_pic<T> result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = matrix[i][j] || pic.matrix[i][j];
+            result.matrix[i][j] = matrix[i][j] + pic.matrix[i][j];
 
     return result;
 }
-// operator *
-template <typename T>
-matrix_pic<T> matrix_pic<T>::operator*(matrix_pic<T> &pic){
+
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator*(const matrix_pic<T> &pic) {
     if(_maxX != pic._maxX || _maxY != pic._maxY)
-        throw std::invalid_argument("Invalid argument");
+        throw std::invalid_argument("Different sizes");
 
-    matrix_pic result(_maxX, _maxY);
+    matrix_pic<T> result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = matrix[i][j] && pic.matrix[i][j];
+            result.matrix[i][j] = matrix[i][j] * pic.matrix[i][j];
 
     return result;
 }
-// operator !
-template <typename T>
-matrix_pic<T> matrix_pic<T>::operator!(){
-    matrix_pic result(_maxX, _maxY);
+
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator!() {
+    matrix_pic<T> result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -97,9 +96,9 @@ matrix_pic<T> matrix_pic<T>::operator!(){
 
     return result;
 }
-// operator =
-template <typename T>
-matrix_pic<T>& matrix_pic<T>::operator=(const matrix_pic<T> &pic){
+
+template<typename T>
+matrix_pic<T> &matrix_pic<T>::operator=(const matrix_pic<T> &pic) {
     if(this == &pic)
         return *this;
 
@@ -122,96 +121,61 @@ matrix_pic<T>& matrix_pic<T>::operator=(const matrix_pic<T> &pic){
     return *this;
 }
 
-// operator + but binary
-template <typename T>
-matrix_pic<T> matrix_pic<T>::operator+(T value){
-    matrix_pic result(_maxX, _maxY);
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator+(T value) {
+    matrix_pic<T> result(_maxX, _maxY);
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = value || matrix[i][j];
-
-    return result;
-}
-// operator * but binary
-template <typename T>
-matrix_pic<T> matrix_pic<T>::operator*(T value){
-    matrix_pic result(_maxX, _maxY);
-
-    for(int i = 0; i < _maxX; i++)
-        for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = value && matrix[i][j];
+            result.matrix[i][j] = matrix[i][j] + value;
 
     return result;
 }
 
-// operator <<
-template <typename T>
-std::ostream& operator<<(std::ostream &out, matrix_pic<T> &pic){
-    for(int i = 0; i < pic._maxX; i++){
-        for(int j = 0; j < pic._maxY; j++){
-            if(pic.matrix[i][j])
-                out << "■  ";
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator*(T value) {
+    matrix_pic<T> result(_maxX, _maxY);
 
-            else
-                out << "□  ";
-        }
-        out << std::endl;
-    }
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = matrix[i][j] * value;
 
-    return out;
-}
-// operator >>
-template <typename T>
-std::istream& operator>>(std::istream &in, matrix_pic<T> &pic){
-    for(int i = 0; i < pic._maxX; i++)
-        for(int j = 0; j < pic._maxY; j++)
-            in >> pic.matrix[i][j];
-
-    return in;
+    return result;
 }
 
-// fill ratio
-template <typename T>
-double matrix_pic<T>::fill_ratio(){
-    if(_maxX == 0 || _maxY == 0)
-        return 0;
-
+template<typename T>
+double matrix_pic<T>::fill_ratio() {
     int count = 0;
+
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
-            if(matrix[i][j])
+            if(matrix[i][j] != 0)
                 count++;
 
     return (double)count / (_maxX * _maxY);
 }
-// draw a circle
-template <typename T>
-void matrix_pic<T>::draw_circle(matrix_pic<T> &pic, int x, int y, int radius){
-    if (x < 0 || y < 0 || radius < 0 || x > pic._maxX || y > pic._maxY || radius * 2 > pic._maxX ||
-    radius * 2 > pic._maxY)
-        throw std::invalid_argument("Invalid argument");
 
-    for (int i = 0; i < pic._maxX; i++)
-        for (int j = 0; j < pic._maxY; j++)
-            if ((i - x) * (i - x) + (j - y) * (j - y) <= radius * radius)
-                pic.matrix[i][j] = true;
+template<typename T>
+void matrix_pic<T>::draw_circle(int x, int y, int r, T value) {
+    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY || r < 0 || r*2 > _maxX || r*2 > _maxY)
+        throw std::out_of_range("Invalid arguments");
+
+    for(int i = x - r; i <= x + r; i++)
+        for(int j = y - r; j <= y + r; j++)
+            if((i - x)*(i - x) + (j - y)*(j - y) <= r*r)
+                matrix[i][j] = value;
 }
 
-// const call operator
-template <typename T>
-T matrix_pic<T>::operator()(int x, int y) const{
-    if(x >= _maxX || y >= _maxY)
+template<typename T>
+T matrix_pic<T>::operator()(int x, int y) const {
+    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw std::out_of_range("Out of range");
-
     return matrix[x][y];
 }
 
-// call operator
-template <typename T>
+template<typename T>
 T &matrix_pic<T>::operator()(int x, int y) {
-    if(x >= _maxX || y >= _maxY)
+    if(x < 0 || x >= _maxX || y < 0 || y >= _maxY)
         throw std::out_of_range("Out of range");
-
     return matrix[x][y];
 }

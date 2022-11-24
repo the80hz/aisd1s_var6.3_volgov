@@ -27,34 +27,50 @@ public:
     void print();
 
     // operator +
-    matrix_pic operator+(matrix_pic &pic);
+    matrix_pic<T> operator+(const matrix_pic<T> &pic);
     // operator *
-    matrix_pic operator*(matrix_pic &pic);
+    matrix_pic<T> operator*(const matrix_pic<T> &pic);
     // operator !
-    matrix_pic operator!();
+    matrix_pic<T> operator!();
     // operator =
-    matrix_pic& operator=(const matrix_pic &pic);
+    matrix_pic<T> &operator=(const matrix_pic<T> &pic);
 
-    // operator + but binary
-    matrix_pic operator+(T value);
-    // operator * but binary
-    matrix_pic operator*(T value);
+    // operator + but with value
+    matrix_pic<T> operator+(T value);
+    // operator * but with value
+    matrix_pic<T> operator*(T value);
 
     // operator <<
-    friend std::ostream& operator<<(std::ostream &out, matrix_pic &pic);
+    friend std::ostream &operator<<(std::ostream &out, const matrix_pic &pic){
+        for(int i = 0; i < pic._maxX; i++){
+            for(int j = 0; j < pic._maxY; j++){
+                out << pic.matrix[i][j] << " ";
+            }
+            out << std::endl;
+        }
+        return out;
+    }
     // operator >>
-    friend std::istream& operator>>(std::istream &in, matrix_pic &pic);
+    friend std::istream &operator>>(std::istream &in, matrix_pic &pic){
+        for(int i = 0; i < pic._maxX; i++){
+            for(int j = 0; j < pic._maxY; j++){
+                in >> pic.matrix[i][j];
+            }
+        }
+        return in;
+    }
+
 
     // fill ratio
     double fill_ratio();
     // draw a circle
-    static void draw_circle(matrix_pic &pic, int x, int y, int radius);
+    void draw_circle(int x, int y, int r, T value);
 
     // const call operator
     T operator()(int x, int y) const;
 
     // call operator
-    T& operator()(int x, int y);
+    T &operator()(int x, int y);
 };
 
 
