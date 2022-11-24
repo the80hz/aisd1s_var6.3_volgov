@@ -26,19 +26,30 @@ public:
     // output the picture
     void print();
 
+    /*
     // operator +
     matrix_pic<T> operator+(const matrix_pic<T> &pic);
     // operator *
     matrix_pic<T> operator*(const matrix_pic<T> &pic);
+    // operator + but with value
+    matrix_pic<T> operator+(T value);
+    // operator * but with value
+    matrix_pic<T> operator*(T value);
+    */
+
+    matrix_pic& operator *(const matrix_pic& obg);
+    matrix_pic& operator +(const matrix_pic& obg);
+    matrix_pic& operator *(T value);
+    matrix_pic& operator +(T value);
+    friend matrix_pic& operator *(T value, matrix_pic& obj);
+    friend matrix_pic& operator +(T value, matrix_pic& obj);
+
     // operator !
     matrix_pic<T> operator!();
     // operator =
     matrix_pic<T> &operator=(const matrix_pic<T> &pic);
 
-    // operator + but with value
-    matrix_pic<T> operator+(T value);
-    // operator * but with value
-    matrix_pic<T> operator*(T value);
+
 
     // operator <<
     friend std::ostream &operator<<(std::ostream &out, const matrix_pic &pic){

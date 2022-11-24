@@ -62,6 +62,7 @@ void matrix_pic<T>::print() {
     }
 }
 
+/*
 template<typename T>
 matrix_pic<T> matrix_pic<T>::operator+(const matrix_pic<T> &pic) {
     if(_maxX != pic._maxX || _maxY != pic._maxY)
@@ -89,6 +90,102 @@ matrix_pic<T> matrix_pic<T>::operator*(const matrix_pic<T> &pic) {
 
     return result;
 }
+
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator+(T value) {
+    matrix_pic<T> result(_maxX, _maxY);
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = matrix[i][j] + value;
+
+    return result;
+}
+
+template<typename T>
+matrix_pic<T> matrix_pic<T>::operator*(T value) {
+    matrix_pic<T> result(_maxX, _maxY);
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            result.matrix[i][j] = matrix[i][j] * value;
+
+    return result;
+}
+*/
+
+
+
+template<typename T>
+matrix_pic<T>& matrix_pic<T>:: operator+(const matrix_pic& obj)
+{
+    for (int i = 0; i < _maxX; i++)
+    {
+        for (int j = 0; j < _maxY; j++)
+        {
+            matrix[i][j] = matrix[i][j]||obj.matrix[i][j];
+        }
+    }
+    return *this;
+}
+
+
+template<typename T>
+matrix_pic<T>& matrix_pic<T>:: operator*(const matrix_pic& obj)
+{
+    for (int i = 0; i < _maxX; i++)
+    {
+        for (int j = 0; j < _maxY; j++)
+        {
+            matrix[i][j] = matrix[i][j]&&obj.matrix[i][j];
+        }
+    }
+    return *this;
+}
+
+
+template<typename T>
+matrix_pic<T>& matrix_pic<T>:: operator *(T value)
+{
+    for (int i = 0; i < _maxX; i++)
+    {
+        for (int j = 0; j < _maxY; j++)
+        {
+            matrix[i][j] = matrix[i][j]&&value;
+        }
+    }
+    return *this;
+}
+
+
+template<typename T>
+matrix_pic<T>& matrix_pic<T>:: operator +(T value)
+{
+    for (int i = 0; i < _maxX; i++)
+    {
+        for (int j = 0; j < _maxY; j++)
+        {
+            matrix[i][j] = matrix[i][j]||value;
+        }
+    }
+    return *this;
+}
+
+
+template<typename T>
+matrix_pic<T>& operator *(const T value, matrix_pic<T>& obj)
+{
+    return obj*value;
+}
+
+
+template<typename T>
+matrix_pic<T>& operator +(const T value, matrix_pic<T>& obj)
+{
+    return obj + value;
+}
+
+
 
 template<typename T>
 matrix_pic<T> matrix_pic<T>::operator!() {
@@ -123,28 +220,6 @@ matrix_pic<T> &matrix_pic<T>::operator=(const matrix_pic<T> &pic) {
             matrix[i][j] = pic.matrix[i][j];
 
     return *this;
-}
-
-template<typename T>
-matrix_pic<T> matrix_pic<T>::operator+(T value) {
-    matrix_pic<T> result(_maxX, _maxY);
-
-    for(int i = 0; i < _maxX; i++)
-        for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = matrix[i][j] + value;
-
-    return result;
-}
-
-template<typename T>
-matrix_pic<T> matrix_pic<T>::operator*(T value) {
-    matrix_pic<T> result(_maxX, _maxY);
-
-    for(int i = 0; i < _maxX; i++)
-        for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = matrix[i][j] * value;
-
-    return result;
 }
 
 template<typename T>
