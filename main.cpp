@@ -45,7 +45,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
             }
             case 5:{
                 // operator + value
-                bool value;
+                T value;
                 std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
                 pic1 = pic1 + value;
@@ -58,7 +58,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
             }
             case 7:{
                 // operator * value
-                bool value;
+                T value;
                 std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
                 pic1 = pic1 * value;
@@ -174,7 +174,7 @@ void select_type(){
 }
 
 int main(){
-    //select_type();
+    select_type();
 
     char a = 'a';
     char b = 'b';
