@@ -222,8 +222,6 @@ bin_pic<T> bin_pic<T>::operator!() {
             else if(matrix[i][j] == '1')
                 result.matrix[i][j] = '0';
 
-
-            //result.matrix[i][j] = !matrix[i][j];
     return result;
 }
 
@@ -260,6 +258,17 @@ double bin_pic<T>::fill_ratio() {
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
             if(matrix[i][j] != 0)
+                count++;
+
+    return (double)count / (_maxX * _maxY);
+}
+template<>
+double bin_pic<char>::fill_ratio() {
+    int count = 0;
+
+    for(int i = 0; i < _maxX; i++)
+        for(int j = 0; j < _maxY; j++)
+            if(matrix[i][j] != '0')
                 count++;
 
     return (double)count / (_maxX * _maxY);
