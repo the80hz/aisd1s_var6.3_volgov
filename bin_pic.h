@@ -5,18 +5,18 @@
 
 
 template <typename T>
-class matrix_pic{
+class bin_pic{
 private:
     T **matrix;
     int _maxX{}, _maxY{};
 
 public:
     // constructor
-    matrix_pic(int x, int y);
+    bin_pic(int x, int y);
     // copy constructor
-    matrix_pic(const matrix_pic &pic);
+    bin_pic(const bin_pic &pic);
     // destructor
-    ~matrix_pic();
+    ~bin_pic();
 
     // set the value of a pixel
     void set(int x, int y, T value);
@@ -26,33 +26,24 @@ public:
     // output the picture
     void print();
 
-    /*
     // operator +
-    matrix_pic<T> operator+(const matrix_pic<T> &pic);
+    bin_pic<T> operator+(const bin_pic<T> &pic);
     // operator *
-    matrix_pic<T> operator*(const matrix_pic<T> &pic);
+    bin_pic<T> operator*(const bin_pic<T> &pic);
     // operator + but with value
-    matrix_pic<T> operator+(T value);
+    bin_pic<T> operator+(T value);
     // operator * but with value
-    matrix_pic<T> operator*(T value);
-    */
-
-    matrix_pic& operator *(const matrix_pic& obg);
-    matrix_pic& operator +(const matrix_pic& obg);
-    matrix_pic& operator *(T value);
-    matrix_pic& operator +(T value);
-    friend matrix_pic& operator *(T value, matrix_pic& obj);
-    friend matrix_pic& operator +(T value, matrix_pic& obj);
+    bin_pic<T> operator*(T value);
 
     // operator !
-    matrix_pic<T> operator!();
+    bin_pic<T> operator!();
     // operator =
-    matrix_pic<T> &operator=(const matrix_pic<T> &pic);
+    bin_pic<T> &operator=(const bin_pic<T> &pic);
 
 
 
     // operator <<
-    friend std::ostream &operator<<(std::ostream &out, const matrix_pic &pic){
+    friend std::ostream &operator<<(std::ostream &out, const bin_pic &pic){
         for(int i = 0; i < pic._maxX; i++){
             for(int j = 0; j < pic._maxY; j++){
                 out << pic.matrix[i][j] << " ";
@@ -62,7 +53,7 @@ public:
         return out;
     }
     // operator >>
-    friend std::istream &operator>>(std::istream &in, matrix_pic &pic){
+    friend std::istream &operator>>(std::istream &in, bin_pic &pic){
         for(int i = 0; i < pic._maxX; i++){
             for(int j = 0; j < pic._maxY; j++){
                 in >> pic.matrix[i][j];
@@ -75,7 +66,7 @@ public:
     // fill ratio
     double fill_ratio();
     // draw a circle
-    static void draw_circle(matrix_pic<T> &pic, int x, int y, int r, T value);
+    static void draw_circle(bin_pic<T> &pic, int x, int y, int r, T value);
 
     // const call operator
     T operator()(int x, int y) const;

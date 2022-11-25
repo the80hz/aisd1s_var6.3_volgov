@@ -1,17 +1,17 @@
 ﻿#include <iostream>
-#include "matrix_pic.h"
+#include "bin_pic.h"
 
 template<typename T>
-void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
+void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
     while(true){
         int i;
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
         std::cout << "4. Add two pictures" << std::endl;
-        std::cout << "5. Add picture with value" << std::endl;
+        std::cout << "5. Add picture with bool" << std::endl;
         std::cout << "6. Multiply two pictures" << std::endl;
-        std::cout << "7. Multiply picture with value" << std::endl;
+        std::cout << "7. Multiply picture with bool" << std::endl;
         std::cout << "8. Fill ratio" << std::endl;
         std::cout << "9. Exit" << std::endl;
         std::cin >> i;
@@ -25,7 +25,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
                 std::cout << "Enter the value of the pixel" << std::endl;
                 T value;
                 std::cin >> value;
-                matrix_pic<T>::draw_circle(pic1, x, y, radius, value);
+                bin_pic<T>::draw_circle(pic1, x, y, radius, value);
                 break;
             }
             case 2:{
@@ -44,7 +44,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
                 break;
             }
             case 5:{
-                // operator + value
+                // operator + bool
                 T value;
                 std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
@@ -57,7 +57,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
                 break;
             }
             case 7:{
-                // operator * value
+                // operator * bool
                 T value;
                 std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
@@ -83,7 +83,7 @@ void menu(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
 }
 
 template<typename T>
-void select_pic(matrix_pic<T> &pic1, matrix_pic<T> &pic2){
+void select_pic(bin_pic<T> &pic1, bin_pic<T> &pic2){
     int num;
     while(true){
         std::cout << "Select picture" << std::endl;
@@ -114,23 +114,23 @@ void create_by_type(size_t type){
     std::cin >> x >> y;
 
     if(type == 1){
-        matrix_pic<bool> pic1(x, y);
-        matrix_pic<bool> pic2(x, y);
+        bin_pic<bool> pic1(x, y);
+        bin_pic<bool> pic2(x, y);
         select_pic<bool>(pic1, pic2);
     }
     else if(type == 2){
-        matrix_pic<char> pic1(x, y);
-        matrix_pic<char> pic2(x, y);
+        bin_pic<char> pic1(x, y);
+        bin_pic<char> pic2(x, y);
         select_pic<char>(pic1, pic2);
     }
     else if(type == 3){
-        matrix_pic<short> pic1(x, y);
-        matrix_pic<short> pic2(x, y);
+        bin_pic<short> pic1(x, y);
+        bin_pic<short> pic2(x, y);
         select_pic<short>(pic1, pic2);
     }
     else if(type == 4){
-        matrix_pic<float> pic1(x, y);
-        matrix_pic<float> pic2(x, y);
+        bin_pic<float> pic1(x, y);
+        bin_pic<float> pic2(x, y);
         select_pic<float>(pic1, pic2);
     }
 }
@@ -176,8 +176,5 @@ void select_type(){
 int main(){
     select_type();
 
-    char a = 'a';
-    char b = 'b';
-    std::cout << a + b << std::endl;
     return 0;
 }
