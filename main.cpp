@@ -109,7 +109,7 @@ void select_pic(bin_pic<T> &pic1, bin_pic<T> &pic2){
 
 
 void create_by_type(size_t type){
-    int x, y, num;
+    int x, y;
     std::cout << "Enter the size of the pictures" << std::endl;
     std::cin >> x >> y;
 
