@@ -103,7 +103,7 @@ bin_pic<char> bin_pic<char>::operator+(const bin_pic<char> &pic) {
 
     bin_pic<char> result(_maxX, _maxY);
 
-    for(int i = 0; i < _maxX; i++)
+    for(int i = 0; i < _maxX; ++i)
         for(int j = 0; j < _maxY; j++)
             if(matrix[i][j] == '0' && pic.matrix[i][j] == '0')
                 result.matrix[i][j] = '0';
@@ -149,21 +149,15 @@ template<typename T>
 bin_pic<T> bin_pic<T>::operator+(T value) {
     bin_pic<T> result(_maxX, _maxY);
 
-    if(value != 0 && value != 1 && value != '0' && value != '1')
-        throw std::invalid_argument("Invalid argument");
-
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
-            result.matrix[i][j] = matrix[i][j] || value;
+            result.matrix[i][j] = matrix[i][j] + value;
 
     return result;
 }
 template<>
 bin_pic<char> bin_pic<char>::operator+(char value) {
     bin_pic<char> result(_maxX, _maxY);
-
-    if(value != 0 && value != 1 && value != '0' && value != '1')
-        throw std::invalid_argument("Invalid argument");
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
@@ -181,9 +175,6 @@ template<typename T>
 bin_pic<T> bin_pic<T>::operator*(T value) {
     bin_pic<T> result(_maxX, _maxY);
 
-    if(value != 0 && value != 1 && value != '0' && value != '1')
-        throw std::invalid_argument("Invalid argument");
-
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
             result.matrix[i][j] = matrix[i][j] * value;
@@ -193,9 +184,6 @@ bin_pic<T> bin_pic<T>::operator*(T value) {
 template<>
 bin_pic<char> bin_pic<char>::operator*(char value) {
     bin_pic<char> result(_maxX, _maxY);
-
-    if(value != 0 && value != 1 && value != '0' && value != '1')
-        throw std::invalid_argument("Invalid argument");
 
     for(int i = 0; i < _maxX; i++)
         for(int j = 0; j < _maxY; j++)
