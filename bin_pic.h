@@ -4,10 +4,11 @@
 #include <iostream>
 
 
+template <typename T>
 class bin_pic{
 private:
-    bool **matrix;
-    int _maxX, _maxY;
+    T **matrix;
+    int _maxX{}, _maxY{};
 
 public:
     // constructor
@@ -18,42 +19,60 @@ public:
     ~bin_pic();
 
     // set the value of a pixel
-    void set(int x, int y, bool value);
+    void set(int x, int y, T value);
     // get the value of a pixel
-    bool get(int x, int y);
+    T get(int x, int y);
 
     // output the picture
     void print();
 
     // operator +
-    bin_pic operator+(bin_pic &pic);
+    bin_pic<T> operator+(const bin_pic<T> &pic);
     // operator *
-    bin_pic operator*(bin_pic &pic);
-    // operator !
-    bin_pic operator!();
-    // operator =
-    bin_pic& operator=(const bin_pic &pic);
+    bin_pic<T> operator*(const bin_pic<T> &pic);
+    // operator + but with value
+    bin_pic<T> operator+(T value);
+    // operator * but with value
+    bin_pic<T> operator*(T value);
 
-    // operator + but binary
-    bin_pic operator+(bool value);
-    // operator * but binary
-    bin_pic operator*(bool value);
+    // operator !
+    bin_pic<T> operator!();
+    // operator =
+    bin_pic<T> &operator=(const bin_pic<T> &pic);
+
+
 
     // operator <<
-    friend std::ostream& operator<<(std::ostream &out, bin_pic &pic);
+    friend std::ostream &operator<<(std::ostream &out, const bin_pic &pic){
+        for(int i = 0; i < pic._maxX; i++){
+            for(int j = 0; j < pic._maxY; j++){
+                out << pic.matrix[i][j] << " ";
+            }
+            out << std::endl;
+        }
+        return out;
+    }
     // operator >>
-    friend std::istream& operator>>(std::istream &in, bin_pic &pic);
+    friend std::istream &operator>>(std::istream &in, bin_pic &pic){
+        for(int i = 0; i < pic._maxX; i++){
+            for(int j = 0; j < pic._maxY; j++){
+                in >> pic.matrix[i][j];
+            }
+        }
+        return in;
+    }
+
 
     // fill ratio
     double fill_ratio();
     // draw a circle
-    static void draw_circle(bin_pic &pic, int x, int y, int radius);
+    static void draw_circle(bin_pic<T> &pic, int x, int y, int r, T value);
 
     // const call operator
-    bool operator()(int x, int y) const;
+    T operator()(int x, int y) const;
 
     // call operator
-    bool& operator()(int x, int y);
+    T &operator()(int x, int y);
 };
 
 

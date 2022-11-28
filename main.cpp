@@ -1,9 +1,10 @@
 ﻿#include <iostream>
 #include "bin_pic.h"
 
-
-void menu(int i, bin_pic &pic1, bin_pic &pic2){
+template<typename T>
+void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
     while(true){
+        int i;
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
@@ -21,7 +22,10 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
                 int x, y, radius;
                 std::cout << "Enter the coordinates of the center and the radius of the circle" << std::endl;
                 std::cin >> x >> y >> radius;
-                bin_pic::draw_circle(pic1, x, y, radius);
+                std::cout << "Enter the value of the pixel" << std::endl;
+                T value;
+                std::cin >> value;
+                bin_pic<T>::draw_circle(pic1, x, y, radius, value);
                 break;
             }
             case 2:{
@@ -41,8 +45,8 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
             }
             case 5:{
                 // operator + bool
-                bool value;
-                std::cout << "Enter a bool" << std::endl;
+                T value;
+                std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
                 pic1 = pic1 + value;
                 break;
@@ -54,8 +58,8 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
             }
             case 7:{
                 // operator * bool
-                bool value;
-                std::cout << "Enter a bool" << std::endl;
+                T value;
+                std::cout << "Enter a value" << std::endl;
                 std::cin >> value;
                 pic1 = pic1 * value;
                 break;
@@ -78,19 +82,8 @@ void menu(int i, bin_pic &pic1, bin_pic &pic2){
     }
 }
 
-void select_pic(int i){
-    int x, y;
-
-    std::cout << "Create a first picture" << std::endl;
-    std::cout << "Enter the size of the picture" << std::endl;
-    std::cin >> x >> y;
-    bin_pic pic1(x, y);
-
-    std::cout << "Enter the second picture" << std::endl;
-    std::cout << "Enter the size of the picture" << std::endl;
-    std::cin >> x >> y;
-    bin_pic pic2(x, y);
-
+template<typename T>
+void select_pic(bin_pic<T> &pic1, bin_pic<T> &pic2){
     int num;
     while(true){
         std::cout << "Select picture" << std::endl;
@@ -100,10 +93,10 @@ void select_pic(int i){
         std::cin >> num;
         switch (num){
             case 1:
-                menu(i, pic1, pic2);
+                menu(pic1, pic2);
                 break;
             case 2:
-                menu(i, pic2, pic1);
+                menu(pic2, pic1);
                 break;
             case 3:
                 return;
@@ -114,9 +107,74 @@ void select_pic(int i){
     }
 }
 
+
+void create_by_type(size_t type){
+    int x, y;
+    std::cout << "Enter the size of the pictures" << std::endl;
+    std::cin >> x >> y;
+
+    if(type == 1){
+        bin_pic<bool> pic1(x, y);
+        bin_pic<bool> pic2(x, y);
+        select_pic<bool>(pic1, pic2);
+    }
+    else if(type == 2){
+        bin_pic<char> pic1(x, y);
+        bin_pic<char> pic2(x, y);
+        select_pic<char>(pic1, pic2);
+    }
+    else if(type == 3){
+        bin_pic<short> pic1(x, y);
+        bin_pic<short> pic2(x, y);
+        select_pic<short>(pic1, pic2);
+    }
+    else if(type == 4){
+        bin_pic<float> pic1(x, y);
+        bin_pic<float> pic2(x, y);
+        select_pic<float>(pic1, pic2);
+    }
+}
+
+void select_type(){
+    while(true){
+        int i;
+        std::cout << "Select type" << std::endl;
+        std::cout << "1. bool" << std::endl;
+        std::cout << "2. char" << std::endl;
+        std::cout << "3. short" << std::endl;
+        std::cout << "4. float" << std::endl;
+        std::cout << "0. Exit" << std::endl;
+        std::cin >> i;
+        switch(i){
+            case 1:{
+                create_by_type(1);
+                break;
+            }
+            case 2:{
+                create_by_type(2);
+                break;
+            }
+            case 3:{
+                create_by_type(3);
+                break;
+            }
+            case 4:{
+                create_by_type(4);
+                break;
+            }
+            case 0:{
+                return;
+            }
+            default:{
+                std::cout << "Wrong input" << std::endl;
+                break;
+            }
+        }
+    }
+}
+
 int main(){
-    int i = 0;
-    select_pic(i);
+    select_type();
 
     return 0;
 }
