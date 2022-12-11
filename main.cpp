@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "bin_pic.h"
+#include "picture.h"
 
 template<typename T>
 void menu(picture<T> &pic1, picture<T> &pic2){
