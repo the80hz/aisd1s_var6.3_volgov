@@ -9,6 +9,13 @@ class picture {
 private:
     std::vector<T>matrix;
     int _maxX{}, _maxY{};
+
+    auto begin() {
+        return matrix.begin();
+    }
+    auto end() {
+        return matrix.end();
+    }
 public:
     // constructor
     picture(int x, int y);
@@ -66,13 +73,6 @@ public:
 
     // call operator
     T &operator()(int x, int y);
-
-    auto begin() {
-        return matrix.begin();
-    }
-    auto end() {
-        return matrix.end();
-    }
 };
 
 // constructor
@@ -89,6 +89,13 @@ picture<char>::picture(int x, int y) {
     _maxY = y;
 
     matrix.resize(x * y);
+    auto it = matrix.begin();
+    for (int i = 0; i < x; ++i) {
+        for (int j = 0; j < y; ++j) {
+            *it = ' ';
+            ++it;
+        }
+    }
 }
 
 // set the value of a pixel
@@ -116,9 +123,15 @@ picture<T> picture<T>::operator+(const picture<T> &pic) {
     if(_maxX != pic._maxX || _maxY != pic._maxY)
         throw std::invalid_argument("Invalid argument");
     picture<T> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = pic.matrix.begin();
+    auto it3 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            result.matrix[i * _maxY + j] = matrix[i * _maxY + j] + pic.matrix[i * _maxY + j];
+            *it3 = *it1 + *it2;
+            ++it1;
+            ++it2;
+            ++it3;
         }
     }
     return result;
@@ -130,9 +143,15 @@ picture<T> picture<T>::operator*(const picture<T> &pic) {
     if(_maxX != pic._maxX || _maxY != pic._maxY)
         throw std::invalid_argument("Invalid argument");
     picture<T> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = pic.matrix.begin();
+    auto it3 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            result.matrix[i * _maxY + j] = matrix[i * _maxY + j] * pic.matrix[i * _maxY + j];
+            *it3 = *it1 * *it2;
+            ++it1;
+            ++it2;
+            ++it3;
         }
     }
     return result;
@@ -141,12 +160,16 @@ picture<T> picture<T>::operator*(const picture<T> &pic) {
 // operator + with value
 template<typename T>
 picture<T> picture<T>::operator+(T value) {
-    if(value != 0 && value != 1)
-        throw std::invalid_argument("Invalid argument");
+    //if(value != 0 && value != 1)
+    //    throw std::invalid_argument("Invalid argument");
     picture<T> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            result.matrix[i * _maxY + j] = matrix[i * _maxY + j] + value;
+            *it2 = *it1 + value;
+            ++it1;
+            ++it2;
         }
     }
     return result;
@@ -158,9 +181,13 @@ picture<T> picture<T>::operator*(T value) {
     if(value != 0 && value != 1)
         throw std::invalid_argument("Invalid argument");
     picture<T> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            result.matrix[i * _maxY + j] = matrix[i * _maxY + j] * value;
+            *it2 = *it1 * value;
+            ++it1;
+            ++it2;
         }
     }
     return result;
@@ -170,9 +197,13 @@ picture<T> picture<T>::operator*(T value) {
 template<typename T>
 picture<T> picture<T>::operator!() {
     picture<T> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            result.matrix[i * _maxY + j] = !matrix[i * _maxY + j];
+            *it2 = !*it1;
+            ++it1;
+            ++it2;
         }
     }
     return result;
@@ -182,10 +213,12 @@ picture<T> picture<T>::operator!() {
 template<typename T>
 double picture<T>::fill_ratio() {
     int count = 0;
+    auto it = matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            if(matrix[i * _maxY + j] == 1)
-                count++;
+            if(*it == 1)
+                ++count;
+            ++it;
         }
     }
     return (double)count / (_maxX * _maxY);
@@ -196,10 +229,12 @@ template<typename T>
 void picture<T>::draw_circle(picture<T> &pic, int x, int y, int radius, T value) {
     if(x < 0 || x >= pic._maxX || y < 0 || y >= pic._maxY)
         throw std::invalid_argument("Invalid argument");
+    auto it = pic.matrix.begin();
     for (int i = 0; i < pic._maxX; ++i) {
         for (int j = 0; j < pic._maxY; ++j) {
             if((i - x) * (i - x) + (j - y) * (j - y) <= radius * radius)
-                pic.matrix[i * pic._maxY + j] = value;
+                *it = value;
+            ++it;
         }
     }
 }
