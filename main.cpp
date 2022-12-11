@@ -107,7 +107,6 @@ void select_pic(picture<T> &pic1, picture<T> &pic2){
     }
 }
 
-
 void create_by_type(size_t type){
     int x, y;
     std::cout << "Enter the size of the pictures" << std::endl;

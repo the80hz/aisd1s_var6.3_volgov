@@ -92,7 +92,7 @@ picture<char>::picture(int x, int y) {
     auto it = matrix.begin();
     for (int i = 0; i < x; ++i) {
         for (int j = 0; j < y; ++j) {
-            *it = ' ';
+            *it = '0';
             ++it;
         }
     }
@@ -128,7 +128,31 @@ picture<T> picture<T>::operator+(const picture<T> &pic) {
     auto it3 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            *it3 = *it1 + *it2;
+            if(*it1 == 1 || *it2 == 1)
+                *it3 = 1;
+            else
+                *it3 = 0;
+            ++it1;
+            ++it2;
+            ++it3;
+        }
+    }
+    return result;
+}
+template<>
+picture<char> picture<char>::operator+(const picture<char> &pic) {
+    if(_maxX != pic._maxX || _maxY != pic._maxY)
+        throw std::invalid_argument("Invalid argument");
+    picture<char> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = pic.matrix.begin();
+    auto it3 = result.matrix.begin();
+    for (int i = 0; i < _maxX; ++i) {
+        for (int j = 0; j < _maxY; ++j) {
+            if(*it1 == '1' || *it2 == '1')
+                *it3 = '1';
+            else
+                *it3 = '0';
             ++it1;
             ++it2;
             ++it3;
@@ -148,7 +172,31 @@ picture<T> picture<T>::operator*(const picture<T> &pic) {
     auto it3 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            *it3 = *it1 * *it2;
+            if(*it1 == 1 && *it2 == 1)
+                *it3 = 1;
+            else
+                *it3 = 0;
+            ++it1;
+            ++it2;
+            ++it3;
+        }
+    }
+    return result;
+}
+template<>
+picture<char> picture<char>::operator*(const picture<char> &pic) {
+    if(_maxX != pic._maxX || _maxY != pic._maxY)
+        throw std::invalid_argument("Invalid argument");
+    picture<char> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = pic.matrix.begin();
+    auto it3 = result.matrix.begin();
+    for (int i = 0; i < _maxX; ++i) {
+        for (int j = 0; j < _maxY; ++j) {
+            if(*it1 == '1' && *it2 == '1')
+                *it3 = '1';
+            else
+                *it3 = '0';
             ++it1;
             ++it2;
             ++it3;
@@ -160,14 +208,36 @@ picture<T> picture<T>::operator*(const picture<T> &pic) {
 // operator + with value
 template<typename T>
 picture<T> picture<T>::operator+(T value) {
-    //if(value != 0 && value != 1)
-    //    throw std::invalid_argument("Invalid argument");
+    if(value != 0 && value != 1)
+        throw std::invalid_argument("Invalid argument");
     picture<T> result(_maxX, _maxY);
     auto it1 = matrix.begin();
     auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            *it2 = *it1 + value;
+            if(*it1 == 1 || value == 1)
+                *it2 = 1;
+            else
+                *it2 = 0;
+            ++it1;
+            ++it2;
+        }
+    }
+    return result;
+}
+template<>
+picture<char> picture<char>::operator+(char value) {
+    if(value != '0' && value != '1')
+        throw std::invalid_argument("Invalid argument");
+    picture<char> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
+    for (int i = 0; i < _maxX; ++i) {
+        for (int j = 0; j < _maxY; ++j) {
+            if(*it1 == '1' || value == '1')
+                *it2 = '1';
+            else
+                *it2 = '0';
             ++it1;
             ++it2;
         }
@@ -185,7 +255,29 @@ picture<T> picture<T>::operator*(T value) {
     auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            *it2 = *it1 * value;
+            if(*it1 == 1 && value == 1)
+                *it2 = 1;
+            else
+                *it2 = 0;
+            ++it1;
+            ++it2;
+        }
+    }
+    return result;
+}
+template<>
+picture<char> picture<char>::operator*(char value) {
+    if(value != '0' && value != '1')
+        throw std::invalid_argument("Invalid argument");
+    picture<char> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
+    for (int i = 0; i < _maxX; ++i) {
+        for (int j = 0; j < _maxY; ++j) {
+            if(*it1 == '1' && value == '1')
+                *it2 = '1';
+            else
+                *it2 = '0';
             ++it1;
             ++it2;
         }
@@ -201,7 +293,27 @@ picture<T> picture<T>::operator!() {
     auto it2 = result.matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            *it2 = !*it1;
+            if(*it1 == 1)
+                *it2 = 0;
+            else
+                *it2 = 1;
+            ++it1;
+            ++it2;
+        }
+    }
+    return result;
+}
+template<>
+picture<char> picture<char>::operator!() {
+    picture<char> result(_maxX, _maxY);
+    auto it1 = matrix.begin();
+    auto it2 = result.matrix.begin();
+    for (int i = 0; i < _maxX; ++i) {
+        for (int j = 0; j < _maxY; ++j) {
+            if(*it1 == '1')
+                *it2 = '0';
+            else
+                *it2 = '1';
             ++it1;
             ++it2;
         }
@@ -216,7 +328,7 @@ double picture<T>::fill_ratio() {
     auto it = matrix.begin();
     for (int i = 0; i < _maxX; ++i) {
         for (int j = 0; j < _maxY; ++j) {
-            if(*it == 1)
+            if(*it == 1 || *it == '1')
                 ++count;
             ++it;
         }
