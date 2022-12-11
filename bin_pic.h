@@ -2,14 +2,13 @@
 #define LAB1_BIN_PIC_H
 
 #include <iostream>
-
+#include <list>
 
 template <typename T>
 class bin_pic{
 private:
     T **matrix;
     int _maxX{}, _maxY{};
-
 public:
     // constructor
     bin_pic(int x, int y);
@@ -40,8 +39,6 @@ public:
     // operator =
     bin_pic<T> &operator=(const bin_pic<T> &pic);
 
-
-
     // operator <<
     friend std::ostream &operator<<(std::ostream &out, const bin_pic &pic){
         for(int i = 0; i < pic._maxX; i++){
@@ -61,7 +58,6 @@ public:
         }
         return in;
     }
-
 
     // fill ratio
     double fill_ratio();

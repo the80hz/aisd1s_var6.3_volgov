@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "bin_pic.h"
+#include "test.h"
 
 template<typename T>
 void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
@@ -174,7 +175,10 @@ void select_type(){
 }
 
 int main(){
-    select_type();
+    //select_type();
+
+    // test
+    std::cout << foo('1', '4') << std::endl;
 
     return 0;
 }
