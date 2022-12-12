@@ -1,17 +1,17 @@
 ﻿#include <iostream>
-#include "bin_pic.h"
+#include "picture.h"
 
 template<typename T>
-void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
+void menu(picture<T> &pic1, picture<T> &pic2){
     while(true){
         int i;
         std::cout << "1. Create a circle" << std::endl;
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
         std::cout << "4. Add two pictures" << std::endl;
-        std::cout << "5. Add picture with bool" << std::endl;
+        std::cout << "5. Add picture with value" << std::endl;
         std::cout << "6. Multiply two pictures" << std::endl;
-        std::cout << "7. Multiply picture with bool" << std::endl;
+        std::cout << "7. Multiply picture with value" << std::endl;
         std::cout << "8. Fill ratio" << std::endl;
         std::cout << "9. Exit" << std::endl;
         std::cin >> i;
@@ -25,7 +25,7 @@ void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
                 std::cout << "Enter the value of the pixel" << std::endl;
                 T value;
                 std::cin >> value;
-                bin_pic<T>::draw_circle(pic1, x, y, radius, value);
+                picture<T>::draw_circle(pic1, x, y, radius, value);
                 break;
             }
             case 2:{
@@ -83,7 +83,7 @@ void menu(bin_pic<T> &pic1, bin_pic<T> &pic2){
 }
 
 template<typename T>
-void select_pic(bin_pic<T> &pic1, bin_pic<T> &pic2){
+void select_pic(picture<T> &pic1, picture<T> &pic2){
     int num;
     while(true){
         std::cout << "Select picture" << std::endl;
@@ -107,30 +107,29 @@ void select_pic(bin_pic<T> &pic1, bin_pic<T> &pic2){
     }
 }
 
-
 void create_by_type(size_t type){
     int x, y;
     std::cout << "Enter the size of the pictures" << std::endl;
     std::cin >> x >> y;
 
     if(type == 1){
-        bin_pic<bool> pic1(x, y);
-        bin_pic<bool> pic2(x, y);
+        picture<bool> pic1(x, y);
+        picture<bool> pic2(x, y);
         select_pic<bool>(pic1, pic2);
     }
     else if(type == 2){
-        bin_pic<char> pic1(x, y);
-        bin_pic<char> pic2(x, y);
+        picture<char> pic1(x, y);
+        picture<char> pic2(x, y);
         select_pic<char>(pic1, pic2);
     }
     else if(type == 3){
-        bin_pic<short> pic1(x, y);
-        bin_pic<short> pic2(x, y);
+        picture<short> pic1(x, y);
+        picture<short> pic2(x, y);
         select_pic<short>(pic1, pic2);
     }
     else if(type == 4){
-        bin_pic<float> pic1(x, y);
-        bin_pic<float> pic2(x, y);
+        picture<float> pic1(x, y);
+        picture<float> pic2(x, y);
         select_pic<float>(pic1, pic2);
     }
 }
