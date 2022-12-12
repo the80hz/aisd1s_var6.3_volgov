@@ -8,17 +8,17 @@ template <typename T>
 class picture {
 private:
     std::vector<T>matrix;
-    int _maxX{}, _maxY{};
+    unsigned int _maxX{}, _maxY{};
 
-    auto begin() {
+    auto begin() const{
         return matrix.begin();
     }
-    auto end() {
+    auto end() const{
         return matrix.end();
     }
 public:
     // constructor
-    picture(int x, int y);
+    picture(unsigned int x, unsigned int y);
     // copy constructor
     picture(const picture &pic) = default;
     // destructor
@@ -68,13 +68,13 @@ public:
 
 // constructor
 template<typename T>
-picture<T>::picture(int x, int y) {
+picture<T>::picture(unsigned int x, unsigned int y) {
     _maxX = x;
     _maxY = y;
     matrix.resize(x * y); // заполнен нулями
 }
 template<>
-picture<char>::picture(int x, int y) {
+picture<char>::picture(unsigned int x, unsigned int y) {
     _maxX = x;
     _maxY = y;
     matrix.resize(x * y);

@@ -9,9 +9,9 @@ void menu(picture<T> &pic1, picture<T> &pic2){
         std::cout << "2. Print a picture" << std::endl;
         std::cout << "3. Invert a picture" << std::endl;
         std::cout << "4. Add two pictures" << std::endl;
-        std::cout << "5. Add picture with bool" << std::endl;
+        std::cout << "5. Add picture with value" << std::endl;
         std::cout << "6. Multiply two pictures" << std::endl;
-        std::cout << "7. Multiply picture with bool" << std::endl;
+        std::cout << "7. Multiply picture with value" << std::endl;
         std::cout << "8. Fill ratio" << std::endl;
         std::cout << "9. Exit" << std::endl;
         std::cin >> i;
@@ -173,9 +173,8 @@ void select_type(){
 }
 
 int main(){
-    //select_type();
-    picture<char> pic1(10, 10);
-    std::cout << pic1;
+    select_type();
+
 
     return 0;
 }
