@@ -175,6 +175,5 @@ void select_type(){
 int main(){
     select_type();
 
-
     return 0;
 }
