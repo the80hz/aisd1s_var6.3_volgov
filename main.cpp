@@ -173,7 +173,9 @@ void select_type(){
 }
 
 int main(){
-    select_type();
+    //select_type();
+    picture<char> pic1(10, 10);
+    std::cout << pic1;
 
     return 0;
 }
